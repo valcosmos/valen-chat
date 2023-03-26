@@ -8,8 +8,9 @@ export const authOptions = {
       clientId: process.env.GOOGLE_ID!,
       clientSecret: process.env.GOOGLE_SECRET!,
       httpOptions: {
-        timeout: 1000000
-      }
+        timeout: 1000000,
+      
+      },
     })
     // ...add more providers here
   ]

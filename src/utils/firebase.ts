@@ -20,8 +20,6 @@ const firebaseConfig: FirebaseOptions = {
   measurementId: process.env.NEXT_PUBLIC_F_MEASUREMENT_ID
 }
 
-console.log('==>', firebaseConfig)
-
 // Initialize Firebase
 // const app = initializeApp(firebaseConfig);
 // const analytics = getAnalytics(app);
