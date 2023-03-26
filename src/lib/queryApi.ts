@@ -11,6 +11,8 @@ export const query = async (prompt: string, chatId: string, model: string) =>
         max_tokens: 1000,
         frequency_penalty: 0,
         presence_penalty: 0
+      }, {
+        timeout: 100000
       })
       resolve(res.data.choices[0].message?.content)
       // return res.data.choices[0].message?.content
