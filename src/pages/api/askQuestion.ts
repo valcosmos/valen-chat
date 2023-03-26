@@ -13,8 +13,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   // ChatGPT Query
 
-  const response = await query(prompt, chatId, model)
 
+  const awaitWrap = (promise:Promise<any>) =>promise.then(res=>[null, res]).catch(err=>[err,null])
+    
+  const [err, response] = await awaitWrap(query(prompt, chatId, model))
+    // const response = await 
+
+  if (err) return res.status(500).json({ answer: 'unknown error' })
+  
   const message: Message = {
     text: response || 'ChatGPT was unable to find an answer for that',
     createdAt: admin.firestore.Timestamp.now(),
