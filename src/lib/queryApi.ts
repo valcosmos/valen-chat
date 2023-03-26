@@ -11,7 +11,6 @@ export const query = async (prompt: string, chatId: string, model: string) =>
         max_tokens: 1000,
         frequency_penalty: 0,
         presence_penalty: 0,
-        stream: true
       }, {
         timeout: 100000
       })
