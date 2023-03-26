@@ -6,6 +6,6 @@ type Props = {
 
 export default function Chat({chatId}:Props) {
   return (
-    <div>Chat</div>
+    <div className='flex-1'>Chat</div>
   )
 }

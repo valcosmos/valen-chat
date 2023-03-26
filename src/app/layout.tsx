@@ -1,3 +1,4 @@
+import ClientProvider from '@/components/ClientProvider'
 import Login from '@/components/Login'
 import SessionProvider from '@/components/SessionProvider'
 import Sidebar from '@/components/SideBar'
@@ -26,7 +27,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                 <Sidebar />
               </div>
 
-              <div>{/* clientProvider - notification */}</div>
+                {/* clientProvider - notification */}
+                <ClientProvider />
 
               <div className="bg-[#343541] flex-1">{children}</div>
             </div>
