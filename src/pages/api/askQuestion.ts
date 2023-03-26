@@ -2,7 +2,11 @@ import { useSession } from 'next-auth/react'
 import admin from 'firebase-admin'
 import { query } from '@/lib/queryApi'
 import { adminDB } from '@/utils/firebaseAdmin'
-import type{ NextApiRequest, NextApiResponse } from 'next'
+import type { NextApiRequest, NextApiResponse } from 'next'
+
+export const config = {
+  runtime: 'edge'
+}
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { prompt, chatId, model, session } = req.body
