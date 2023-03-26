@@ -11,7 +11,6 @@ export default function ModelSelection() {
     fallbackData:'gpt-3.5-turbo'
   })
 
-  console.log(models)
   return (
     <div className='mt-2'>
       <Select
