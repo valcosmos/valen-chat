@@ -1,4 +1,4 @@
-import { getApps } from 'firebase/app';
+import { getApps } from 'firebase-admin/app'
 import admin from 'firebase-admin'
 
 const serviceAccount = JSON.parse(process.env.F_SERVICE_ACCOUNT_KEY as string)
