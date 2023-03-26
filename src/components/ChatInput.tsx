@@ -44,24 +44,22 @@ export default function ChatInput({ chatId }: Props) {
 
     const notification = toast.loading('ChatGPT is thinking')
 
-    await fetch('/api/askQuestion', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ prompt: input, chatId, model, session })
-    })
-      .then(() => {
-        // Toast notification to say successful
-        toast.success('ChatGPT has responded!', {
-          id: notification
-        })
+
+     const res =  await fetch('/api/askQuestion', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ prompt: input, chatId, model, session })
+     })
+      if(res.status!==200) return  toast.error('Something wrong', {
+        id: notification
       })
-      .catch((err) => {
-        toast.error('Something error', {
-          id: notification
-        })
+      
+      toast.success('ChatGPT has responded!', {
+        id: notification
       })
+    
   }
 
   return (
