@@ -1,11 +1,13 @@
 'use client'
 
 import { db } from '@/utils/firebase'
+import useSWR from 'swr'
 import { PaperAirplaneIcon } from '@heroicons/react/24/outline'
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
 import { useSession } from 'next-auth/react'
 import { FormEvent, useState } from 'react'
 import { toast } from 'react-hot-toast'
+import ModelSelection from './ModelSelection'
 
 type Props = {
   chatId: string
@@ -14,8 +16,9 @@ export default function ChatInput({ chatId }: Props) {
   const { data: session } = useSession()
   const [prompt, setPrompt] = useState('')
 
-  // TODO:use swr to get model
-  const model = 'text-davinci-003'
+    const { data: model, mutate: setModel } = useSWR('model', {
+    fallbackData:'text-davinci-003'
+  })
 
   const sendMessage = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -41,13 +44,16 @@ export default function ChatInput({ chatId }: Props) {
 
     const notification = toast.loading('ChatGPT is thinking')
 
+    console.log('===>',model);
+    
+
     await fetch('/api/askQuestion', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({prompt: input, chatId, model, session})
-    }).then(() => { 
+      body: JSON.stringify({ prompt: input, chatId, model, session })
+    }).then(() => {
       // Toast notification to say successful
       toast.success('ChatGPT has responded!', {
         id: notification
@@ -76,7 +82,10 @@ export default function ChatInput({ chatId }: Props) {
         </button>
       </form>
 
-      <div>{/* model selection */}</div>
+      <div className="md:hidden">
+        {/* model selection */}
+        <ModelSelection />
+      </div>
     </div>
   )
 }
