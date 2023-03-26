@@ -16,8 +16,8 @@ export default function ChatInput({ chatId }: Props) {
   const { data: session } = useSession()
   const [prompt, setPrompt] = useState('')
 
-    const { data: model, mutate: setModel } = useSWR('model', {
-    fallbackData:'gpt-3.5-turbo'
+  const { data: model, mutate: setModel } = useSWR('model', {
+    fallbackData: 'gpt-3.5-turbo'
   })
 
   const sendMessage = async (e: FormEvent<HTMLFormElement>) => {
@@ -43,7 +43,6 @@ export default function ChatInput({ chatId }: Props) {
     // Toast notification
 
     const notification = toast.loading('ChatGPT is thinking')
-    
 
     await fetch('/api/askQuestion', {
       method: 'POST',
@@ -51,12 +50,18 @@ export default function ChatInput({ chatId }: Props) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ prompt: input, chatId, model, session })
-    }).then(() => {
-      // Toast notification to say successful
-      toast.success('ChatGPT has responded!', {
-        id: notification
-      })
     })
+      .then(() => {
+        // Toast notification to say successful
+        toast.success('ChatGPT has responded!', {
+          id: notification
+        })
+      })
+      .catch((err) => {
+        toast.error('Something error', {
+          id: notification
+        })
+      })
   }
 
   return (
