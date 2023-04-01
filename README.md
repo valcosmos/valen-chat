@@ -2,6 +2,10 @@
 
 A little tiy based on ChatGPT, build with Next.js
 
+## Demo
+
+![](/demo.gif)
+
 
 ## Getting Started
 
