@@ -2,7 +2,7 @@
 
 A little tiy based on ChatGPT, build with Next.js
 
-## Technical skills
+## Technology stack
 
 - Next.js 13
 - TypeScript
