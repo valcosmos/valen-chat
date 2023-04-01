@@ -6,18 +6,24 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '../pages/api/auth/[...nextauth]'
 import pkg from '../../package.json'
 import './globals.css'
+import {Nunito} from 'next/font/google'
 
 export const metadata = {
   title: pkg.name,
   description: pkg.description
 }
 
+const font = Nunito({
+  subsets:['latin']
+})
+
+
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const session = await getServerSession(authOptions)
 
   return (
     <html lang="en">
-      <body>
+      <body className={font.className}>
         <SessionProvider session={session}>
           {!session ? (
             <Login />
