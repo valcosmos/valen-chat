@@ -2,6 +2,15 @@
 
 A little tiy based on ChatGPT, build with Next.js
 
+## Technical skills
+
+- Next.js 13
+- TypeScript
+- Firebase
+- NextAuth.js
+- Tailwind css
+- ChatGPT API
+
 ## Demo
 
 ![](/demo.gif)
@@ -11,14 +20,12 @@ A little tiy based on ChatGPT, build with Next.js
 
 First, create an `.env` file in the project root directory add the following environment variables
 
-```
+```sh
 
 GOOGLE_ID=
-
 GOOGLE_SECRET=
 
 NEXTAUTH_URL=
-
 NEXTAUTH_SECRET=
 
 NEXT_PUBLIC_F_API_KEY=
@@ -29,10 +36,9 @@ NEXT_PUBLIC_F_MESSAGING_SENDER_ID=
 NEXT_PUBLIC_F_APP_ID=
 NEXT_PUBLIC_F_MEASUREMENT_ID=
 
-OPENAI_API_KEY=
-
 F_SERVICE_ACCOUNT_KEY=
 
+OPENAI_API_KEY=
 ```
 
 
