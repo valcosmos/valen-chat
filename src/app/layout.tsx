@@ -4,11 +4,12 @@ import SessionProvider from '@/components/SessionProvider'
 import Sidebar from '@/components/SideBar'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '../pages/api/auth/[...nextauth]'
+import pkg from '../../package.json'
 import './globals.css'
 
 export const metadata = {
-  title: 'Valen Chat',
-  description: 'A little toy based on ChatGPT'
+  title: pkg.name,
+  description: pkg.description
 }
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {

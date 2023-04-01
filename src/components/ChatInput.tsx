@@ -3,11 +3,13 @@
 import { db } from '@/utils/firebase'
 import useSWR from 'swr'
 import { PaperAirplaneIcon } from '@heroicons/react/24/outline'
-import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
+import { addDoc, collection, serverTimestamp, updateDoc } from 'firebase/firestore'
 import { useSession } from 'next-auth/react'
 import { FormEvent, useState } from 'react'
 import { toast } from 'react-hot-toast'
 import ModelSelection from './ModelSelection'
+import { MODEL } from '@/constant'
+
 
 type Props = {
   chatId: string
@@ -17,7 +19,7 @@ export default function ChatInput({ chatId }: Props) {
   const [prompt, setPrompt] = useState('')
 
   const { data: model, mutate: setModel } = useSWR('model', {
-    fallbackData: 'gpt-3.5-turbo'
+    fallbackData: MODEL
   })
 
   const sendMessage = async (e: FormEvent<HTMLFormElement>) => {
@@ -45,21 +47,58 @@ export default function ChatInput({ chatId }: Props) {
     const notification = toast.loading('ChatGPT is thinking')
 
 
-     const res =  await fetch('/api/askQuestion', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ prompt: input, chatId, model, session })
-     })
-      if(res.status!==200) return  toast.error('Something wrong', {
-        id: notification
-      })
-      
-      toast.success('ChatGPT has responded!', {
-        id: notification
-      })
+    const eventSource = new EventSource(`/api/ask-question/${model}/${input}`)
+
+    let answer = ''
+
+    const resMessage: Message = {
+      text: answer,
+      createdAt: serverTimestamp(),
+      user: {
+        _id: 'ChatGPT',
+        name: 'ChatGPT',
+        avatar: 'https://links.papareact.com/89k'
+      }
+    }
+    // adminDB
+    //   .collection('users')
+    //   .doc(session?.user?.email!)
+    //   .collection('chats')
+    //   .doc(chatId)
+    //   .collection('messages')
+    //   .add(resMessage)
+    const doc = await addDoc(
+      collection(db, 'users', session?.user?.email!, 'chats', chatId, 'messages'),
+      resMessage
+    )
+
     
+
+    eventSource.addEventListener('message',async (event) => {
+      toast.success('ChatGPT is answering!', {
+        id: notification,
+      })
+      if (event.data === '[DONE]') {
+        toast.success('ChatGPT has responded!', {
+          id: notification
+        })
+        return eventSource.close()
+      }
+
+      const data = JSON.parse(event.data)
+      if (data.choices[0].delta.content) {
+        answer += data.choices[0].delta.content
+      }
+
+      await updateDoc(doc, {text: answer })
+    })
+
+    eventSource.addEventListener('error', (err) => {
+      toast.error('Something wrong', {
+        id: notification
+      })
+      eventSource.close()
+    })
   }
 
   return (

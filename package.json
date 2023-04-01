@@ -1,8 +1,11 @@
 {
-  "name": "chatgpt-messenger",
+  "name": "valen-chat",
+  "description": "A little toy based on ChatGPT",
+  "license": "MIT",
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "turbo:dev": "next dev --turbo",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
