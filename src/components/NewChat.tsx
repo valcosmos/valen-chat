@@ -15,7 +15,7 @@ export default function NewChat() {
       messages: [],
       userId: session?.user?.email,
       createdAt: serverTimestamp()
-    })    
+    })
     router.push(`/chat/${doc.id}`)
   }
   return (
