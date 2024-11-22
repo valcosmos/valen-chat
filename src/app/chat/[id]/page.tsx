@@ -2,12 +2,18 @@ import Chat from "@/components/Chat";
 import ChatInput from "@/components/ChatInput";
 
 type Props = {
-  params: {
+  params: Promise<{
     id: string
-  }
+  }>
 }
 
-export default function ChatPage ({ params: { id} }:Props) {
+export default async function ChatPage(props:Props) {
+  const params = await props.params;
+
+  const {
+    id
+  } = params;
+
   return (
     <div className="flex flex-col h-screen overflow-hidden">
       {/* chat */}
